@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  fanapp-backend:
+    image: dahiyaajay2022/fanapp-backend:v1
+    ports:
+      - "8080:8080"
+    depends_on:
+      - fanapp-postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://fanapp-postgres:5432/mydemoDB
+      SPRING_DATASOURCE_USERNAME: ajayd
+      SPRING_DATASOURCE_PASSWORD: Password@1
+
+  fanapp-frontend:
+    image: dahiyaajay2022/fanapp-frontend:latest
+    container_name: fanapp-frontend-container
+    ports:
+      - "3000:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+  fanapp-postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: mydemoDB
+      POSTGRES_USER: ajayd
+      POSTGRES_PASSWORD: Password@1
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
